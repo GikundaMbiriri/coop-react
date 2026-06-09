@@ -41,7 +41,6 @@ export default function Header() {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-black/50 z-5" />
         <div className="relative z-10 flex h-full items-center justify-between px-4 md:px-6">
           <h1 className="text-sm md:text-lg font-bold text-white truncate">
             Inua Mkulima Subsidy Program

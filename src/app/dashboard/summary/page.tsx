@@ -172,13 +172,12 @@ export default function SummaryPage() {
       <div className="flex items-center gap-2 mb-6">
         <button
           onClick={() => router.back()}
-          className="flex items-center justify-center rounded-lg border border-gray-300 p-2 text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer"
+          className="flex items-center gap-2 rounded-lg bg-[#E8B40A] px-4 py-2 text-sm font-semibold text-white hover:bg-[#D19C0A] transition-colors cursor-pointer"
         >
-          <MdArrowBack className="text-lg" />
+          <MdArrowBack />
+          Back
         </button>
-        <span className="text-sm text-gray-500">
-          Product Details &gt; Summary
-        </span>
+        <span className="text-sm text-gray-500">Product Details &gt; Summary</span>
       </div>
 
       <div className="space-y-6">
@@ -348,7 +347,6 @@ export default function SummaryPage() {
       {showSuccess && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0000007C] p-4">
           <div className="w-full max-w-md rounded-2xl bg-white p-6 md:p-8 shadow-2xl text-center">
-            <MdCheckCircle className="mx-auto text-6xl text-[#009438] mb-4" />
 
             <h2 className="text-2xl font-bold text-gray-900 mb-2">
               Payment Successful
@@ -363,6 +361,8 @@ export default function SummaryPage() {
                 Date:{" "}
                 <span className="font-semibold text-gray-900">{paymentDate}</span>
               </p>
+                          <MdCheckCircle className="mx-auto text-6xl text-black mb-4" />
+
               <p className="mt-3 text-lg font-bold text-gray-900">
                 Kes{" "}
                 {grandTotal.toLocaleString("en-KE", {
@@ -390,7 +390,7 @@ export default function SummaryPage() {
                   dispatch(clearCart());
                   router.push("/dashboard");
                 }}
-                className="flex-1 rounded-lg bg-[#009438] px-4 py-3 text-sm font-semibold text-white hover:bg-[#007a2e] transition-colors cursor-pointer"
+                className="flex-1 rounded-lg bg-black px-4 py-3 text-sm font-semibold text-white hover:bg-gray-800 transition-colors cursor-pointer"
               >
                 Done
               </button>

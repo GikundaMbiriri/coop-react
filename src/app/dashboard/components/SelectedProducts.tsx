@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { MdRemove } from "react-icons/md";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
@@ -11,6 +11,7 @@ export default function SelectedProducts() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const selected = useAppSelector((state) => state.cart.items);
+  const [customDeductions, setCustomDeductions] = useState<Record<number, number>>({});
 
   const grandTotal = useMemo(
     () => selected.reduce((sum, item) => sum + item.price * item.qty, 0),
@@ -29,6 +30,13 @@ export default function SelectedProducts() {
   function handleUpdateQty(id: number, qty: number) {
     if (qty < 1) return;
     dispatch(updateItemQty({ id, qty }));
+  }
+
+  function handleUpdateDeduction(id: number, deduction: number) {
+    setCustomDeductions((prev) => ({
+      ...prev,
+      [id]: Math.max(0, deduction),
+    }));
   }
 
   return (
@@ -70,8 +78,12 @@ export default function SelectedProducts() {
               const itemTotal = item.price * item.qty;
               const itemShare =
                 grandTotal > 0 ? itemTotal / grandTotal : 0;
-              const itemDeduction =
+              const calculatedDeduction =
                 Math.round(deduction * itemShare * 100) / 100;
+              const itemDeduction =
+                customDeductions[item.id] !== undefined
+                  ? customDeductions[item.id]
+                  : calculatedDeduction;
 
               return (
                 <div
@@ -103,14 +115,23 @@ export default function SelectedProducts() {
                       minimumFractionDigits: 2,
                     })}
                   </span>
-                  <span className="text-sm font-medium text-[#009438] text-right">
-                    {itemDeduction.toLocaleString("en-KE", {
-                      minimumFractionDigits: 2,
-                    })}
-                  </span>
+                  <input
+                    type="number"
+                    min={0}
+                    max={itemTotal}
+                    step={0.01}
+                    value={itemDeduction}
+                    onChange={(e) =>
+                      handleUpdateDeduction(
+                        item.id,
+                        parseFloat(e.target.value) || 0
+                      )
+                    }
+                    className="w-full rounded border border-gray-300 px-2 py-1 text-center text-sm text-[#009438] font-medium focus:border-[#009438] focus:ring-1 focus:ring-[#009438] focus:outline-none"
+                  />
                   <button
                     onClick={() => handleRemove(item.id)}
-                    className="flex items-center justify-center rounded-full bg-red-500 p-1 text-white hover:bg-red-600 transition-colors cursor-pointer"
+                    className="flex items-center justify-center rounded-full  p-1.5 py-2 border hover:bg-gray-200 text-black transition-colors cursor-pointer"
                   >
                     <MdRemove className="text-base" />
                   </button>
@@ -133,12 +154,18 @@ export default function SelectedProducts() {
               Deduct{" "}
               {selected
                 .reduce((sum, item) => {
-                  const itemTotal = item.price * item.qty;
-                  const itemShare =
-                    grandTotal > 0 ? itemTotal / grandTotal : 0;
-                  return (
-                    sum + Math.round(deduction * itemShare * 100) / 100
-                  );
+                  const itemDeduction =
+                    customDeductions[item.id] !== undefined
+                      ? customDeductions[item.id]
+                      : (() => {
+                          const itemTotal = item.price * item.qty;
+                          const itemShare =
+                            grandTotal > 0 ? itemTotal / grandTotal : 0;
+                          return (
+                            Math.round(deduction * itemShare * 100) / 100
+                          );
+                        })();
+                  return sum + itemDeduction;
                 }, 0)
                 .toLocaleString("en-KE", { minimumFractionDigits: 2 })}{" "}
               Kes

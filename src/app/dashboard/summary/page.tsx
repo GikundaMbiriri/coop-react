@@ -323,7 +323,7 @@ export default function SummaryPage() {
             </button>
             <button
               onClick={handlePay}
-              className="flex-1 rounded-lg bg-[#E8B40A] px-4 py-3 text-sm font-semibold text-white hover:bg-[#D19C0A] transition-colors cursor-pointer"
+              className="flex-1 rounded-lg bg-black px-4 py-3 text-sm font-semibold text-white hover:bg-gray-800 transition-colors cursor-pointer"
             >
               Pay: Kes{" "}
               {grandTotal.toLocaleString("en-KE", {

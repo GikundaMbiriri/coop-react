@@ -44,8 +44,8 @@ export default function SelectedProducts() {
               Please select a product from the products panel first
             </p>
           </div>
-          <div className="mt-4 pt-4 border-t border-gray-200 text-right">
-            <span className="text-sm font-semibold text-gray-700">
+          <div className="mt-4 pt-4 border-t border-gray-200 text-center ">
+            <span className="text-sm font-semibold text-white px-8 py-2 rounded-lg bg-[#808080]">
               Deduct 0.00 Kes
             </span>
           </div>
@@ -122,18 +122,13 @@ export default function SelectedProducts() {
           </div>
 
           {/* Footer */}
-          <div className="mt-4 pt-4 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <span className="text-sm text-gray-500">
-              Total: Kes{" "}
-              {grandTotal.toLocaleString("en-KE", {
-                minimumFractionDigits: 2,
-              })}
-            </span>
+          <div className="mt-4 pt-4 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-center gap-3">
+           
             <button
               onClick={() => {
                 router.push("/dashboard/summary");
               }}
-              className="rounded-lg bg-[#E8B40A] px-4 py-2 text-sm font-semibold text-white hover:bg-[#D19C0A] transition-colors cursor-pointer"
+              className="rounded-lg bg-[#000000] px-4 py-2 text-sm font-semibold text-white hover:bg-[#333333] transition-colors cursor-pointer"
             >
               Deduct{" "}
               {selected
